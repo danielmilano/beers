@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Beers</string>
+
+    <!--SearchBeerFragment-->
+    <string name="search_beer_more_info">MORE INFO</string>
+    <string name="search_beer_hint">Search…</string>
+</resources>

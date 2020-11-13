@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/beer_list_fragment">
+
+    <fragment
+        android:id="@+id/beer_list_fragment"
+        android:name="it.danielmilano.beers.ui.beerlist.BeerListFragment"
+        android:label="Beers"
+        tools:layout="@layout/fragment_beer_list">
+        <action
+            android:id="@+id/action_beerListFragment_to_beerDetailFragment"
+            app:destination="@id/beer_detail_fragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_from_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_from_right" />
+
+        <action
+            android:id="@+id/action_beerListFragment_to_beerFiltersFragment"
+            app:destination="@id/beer_filters_fragment"
+            app:enterAnim="@anim/slide_in_from_bottom"
+            app:exitAnim="@anim/slide_out_to_bottom"
+            app:popEnterAnim="@anim/slide_in_from_top"
+            app:popExitAnim="@anim/slide_out_to_top" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/beer_detail_fragment"
+        android:name="it.danielmilano.beers.ui.detail.BeerDetailFragment"
+        android:label="Beer"
+        tools:layout="@layout/fragment_beer_detail">
+
+        <argument
+            android:name="beer"
+            app:argType="it.danielmilano.beers.data.Beer" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/beer_filters_fragment"
+        android:name="it.danielmilano.beers.ui.filter.BeerFiltersFragment"
+        android:label="Filters"
+        tools:layout="@layout/fragment_beer_filters" />
+</navigation>
