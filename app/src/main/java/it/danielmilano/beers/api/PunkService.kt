@@ -15,10 +15,10 @@ interface PunkService {
     @GET("beers")
     suspend fun getBeers(
         @Query("beer_name") beer_name: String? = null,
+        @Query("brewed_before") brewedBefore: String? = null,
+        @Query("brewed_after") brewedAfter: String? = null,
         @Query("page") page: Int? = null,
-        @Query("per_page") perPage: Int? = null,
-        @Query("brewed_before") brewedBefore: Date? = null,
-        @Query("brewed_after") brewedAfter: Date? = null
+        @Query("per_page") perPage: Int? = null
     ): ArrayList<Beer>
 
     companion object {

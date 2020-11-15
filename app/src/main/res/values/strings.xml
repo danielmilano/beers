@@ -2,6 +2,13 @@
     <string name="app_name">Beers</string>
 
     <!--SearchBeerFragment-->
-    <string name="search_beer_more_info">MORE INFO</string>
+    <string name="search_beer_more_info">More info</string>
     <string name="search_beer_hint">Search…</string>
+
+    <!--BeerFiltersFragment-->
+    <string name="beer_filters_title">Filters</string>
+    <string name="beer_filters_reset">Reset</string>
+    <string name="beer_filters_apply">Apply</string>
+    <string name="beer_filters_brewed_before_hint">Brewed before…</string>
+    <string name="beer_filters_brewed_after_hint">Brewed after…</string>
 </resources>

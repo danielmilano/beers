@@ -7,13 +7,19 @@ private const val PUNK_SERVICE_STARTING_PAGE_INDEX = 1
 
 class BeerPagingSource(
     private val service: PunkService,
-    private val query: String? = null
+    private val beerRequest: BeerRequest? = null
 ) : PagingSource<Int, Beer>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Beer> {
         val page = params.key ?: PUNK_SERVICE_STARTING_PAGE_INDEX
         return try {
-            val response = service.getBeers(query, page, params.loadSize)
+            val response = service.getBeers(
+                beerRequest?.beerName?.ifEmpty { null },
+                beerRequest?.brewedBefore?.ifEmpty { null },
+                beerRequest?.brewedAfter?.ifEmpty { null },
+                page,
+                params.loadSize
+            )
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == PUNK_SERVICE_STARTING_PAGE_INDEX) null else page - 1,

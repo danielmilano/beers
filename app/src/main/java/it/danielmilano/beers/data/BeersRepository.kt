@@ -10,10 +10,12 @@ import javax.inject.Singleton
 @Singleton
 class BeersRepository @Inject constructor(private val service: PunkService) {
 
-    fun getSearchResults(query: String? = null) =
+    fun getSearchResults(
+        beerRequest: BeerRequest? = null
+    ) =
         Pager(
             config = PagingConfig(enablePlaceholders = false, pageSize = NETWORK_PAGE_SIZE),
-            pagingSourceFactory = { BeerPagingSource(service, query) }
+            pagingSourceFactory = { BeerPagingSource(service, beerRequest) }
         ).liveData
 
     companion object {

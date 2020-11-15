@@ -1,16 +1,13 @@
 package it.danielmilano.beers.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import it.danielmilano.beers.data.Beer
 import it.danielmilano.beers.databinding.ItemBeerBinding
-import it.danielmilano.beers.ui.beerlist.BeerListFragmentDirections
+import it.danielmilano.beers.ui.beerlist.SearchBeerFragmentDirections
 
 class BeerAdapter(private val listener: OnItemClickListener) :
     PagingDataAdapter<Beer, BeerAdapter.BeerViewHolder>(BEER_COMPARATOR) {

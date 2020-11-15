@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/beer_list_fragment"
-        android:name="it.danielmilano.beers.ui.beerlist.BeerListFragment"
+        android:name="it.danielmilano.beers.ui.beerlist.SearchBeerFragment"
         android:label="Beers"
         tools:layout="@layout/fragment_beer_list">
         <action
@@ -42,5 +42,11 @@
         android:id="@+id/beer_filters_fragment"
         android:name="it.danielmilano.beers.ui.filter.BeerFiltersFragment"
         android:label="Filters"
-        tools:layout="@layout/fragment_beer_filters" />
+        tools:layout="@layout/fragment_beer_filters">
+
+        <argument
+            android:name="beerName"
+            app:argType="string" />
+    </dialog>
+
 </navigation>

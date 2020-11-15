@@ -3,12 +3,11 @@ package it.danielmilano.beers.ui.beerlist
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,10 +18,10 @@ import it.danielmilano.beers.data.Beer
 import it.danielmilano.beers.databinding.FragmentBeerListBinding
 
 @AndroidEntryPoint
-class BeerListFragment : Fragment(R.layout.fragment_beer_list), BeerAdapter.OnItemClickListener {
+class SearchBeerFragment : Fragment(R.layout.fragment_beer_list), BeerAdapter.OnItemClickListener {
 
     private lateinit var mBinding: FragmentBeerListBinding
-    private val viewModel by viewModels<BeerListViewModel>()
+    private val viewModel by activityViewModels<SearchBeerViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -90,20 +89,23 @@ class BeerListFragment : Fragment(R.layout.fragment_beer_list), BeerAdapter.OnIt
 
         val filterItem = menu.findItem(R.id.action_filter)
         filterItem.setOnMenuItemClickListener {
-            findNavController().navigate(R.id.beer_filters_fragment)
+            val action =
+                SearchBeerFragmentDirections.actionBeerListFragmentToBeerFiltersFragment(searchView.query.toString())
+            findNavController().navigate(action)
             true
         }
 
         //Restoring state from viewmodel
-        if (viewModel.getCurrentQuery() != null) {
+        viewModel.getCurrentRequest()?.beerName?.let {
             searchItem.expandActionView()
-            searchView.setQuery(viewModel.getCurrentQuery(), false)
+            searchView.setQuery(it, false)
+            searchView.clearFocus()
         }
     }
 
     override fun onItemClick(beer: Beer) {
         val action =
-            BeerListFragmentDirections.actionBeerListFragmentToBeerDetailFragment(beer)
+            SearchBeerFragmentDirections.actionBeerListFragmentToBeerDetailFragment(beer)
         findNavController().navigate(action)
     }
 }
