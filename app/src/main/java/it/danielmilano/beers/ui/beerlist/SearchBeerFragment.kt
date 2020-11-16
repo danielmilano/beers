@@ -85,7 +85,9 @@ class SearchBeerFragment : Fragment(R.layout.fragment_search_beer),
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.setBeerName(newText)
+                if (!newText.isNullOrEmpty()) {
+                    viewModel.setBeerName(newText)
+                }
                 return true
             }
         })
