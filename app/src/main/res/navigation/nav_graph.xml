@@ -9,7 +9,7 @@
         android:id="@+id/beer_list_fragment"
         android:name="it.danielmilano.beers.ui.beerlist.SearchBeerFragment"
         android:label="Beers"
-        tools:layout="@layout/fragment_beer_list">
+        tools:layout="@layout/fragment_search_beer">
         <action
             android:id="@+id/action_beerListFragment_to_beerDetailFragment"
             app:destination="@id/beer_detail_fragment"

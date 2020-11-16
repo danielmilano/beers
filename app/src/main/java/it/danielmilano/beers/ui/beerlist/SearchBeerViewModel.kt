@@ -6,7 +6,6 @@ import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import it.danielmilano.beers.data.BeerRequest
 import it.danielmilano.beers.data.BeersRepository
-import org.joda.time.DateTime
 
 class SearchBeerViewModel @ViewModelInject internal constructor(
     private val repository: BeersRepository,

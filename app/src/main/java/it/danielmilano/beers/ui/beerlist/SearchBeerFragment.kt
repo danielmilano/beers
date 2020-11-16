@@ -15,17 +15,18 @@ import it.danielmilano.beers.R
 import it.danielmilano.beers.adapter.BeerAdapter
 import it.danielmilano.beers.adapter.CustomLoadStateAdapter
 import it.danielmilano.beers.data.Beer
-import it.danielmilano.beers.databinding.FragmentBeerListBinding
+import it.danielmilano.beers.databinding.FragmentSearchBeerBinding
 
 @AndroidEntryPoint
-class SearchBeerFragment : Fragment(R.layout.fragment_beer_list), BeerAdapter.OnItemClickListener {
+class SearchBeerFragment : Fragment(R.layout.fragment_search_beer),
+    BeerAdapter.OnItemClickListener {
 
-    private lateinit var mBinding: FragmentBeerListBinding
+    private lateinit var mBinding: FragmentSearchBeerBinding
     private val viewModel by activityViewModels<SearchBeerViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding = FragmentBeerListBinding.bind(view)
+        mBinding = FragmentSearchBeerBinding.bind(view)
         val adapter = BeerAdapter(this)
         mBinding.apply {
             recycler.setHasFixedSize(true)
