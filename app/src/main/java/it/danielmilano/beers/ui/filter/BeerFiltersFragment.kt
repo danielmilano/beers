@@ -3,6 +3,7 @@ package it.danielmilano.beers.ui.filter
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.datepicker.CompositeDateValidator
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import it.danielmilano.beers.R
 import it.danielmilano.beers.data.BeerRequest
@@ -25,10 +29,8 @@ import java.util.*
 @AndroidEntryPoint
 class BeerFiltersFragment : BottomSheetDialogFragment() {
 
-    private val args by navArgs<BeerFiltersFragmentArgs>()
-
     private lateinit var mBinding: FragmentBeerFiltersBinding
-    private val viewModel by activityViewModels<SearchBeerViewModel>()
+    private val mViewModel by activityViewModels<SearchBeerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,31 +50,19 @@ class BeerFiltersFragment : BottomSheetDialogFragment() {
         mBinding = FragmentBeerFiltersBinding.bind(view)
 
         mBinding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = mViewModel
             close.setOnClickListener { dismiss() }
             reset.setOnClickListener {
-                mBinding.brewedBeforeDate = null
-                mBinding.brewedAfterDate = null
+                mViewModel.setBrewedBefore(null)
+                mViewModel.setBrewedAfter(null)
             }
             brewedBeforeDatePicker.setOnClickListener { onClickDatePicker(BrewedDate.BREWED_BEFORE) }
             brewedAfterDatePicker.setOnClickListener { onClickDatePicker(BrewedDate.BREWED_AFTER) }
             buttonApply.setOnClickListener {
-                val request = BeerRequest(
-                    args.beerName,
-                    mBinding.brewedBeforeDate?.toString("MM/yyyy"),
-                    mBinding.brewedAfterDate?.toString("MM/yyyy")
-                )
-                viewModel.searchBeers(request)
+                mViewModel.searchBeers()
                 dismiss()
             }
-        }
-
-        //Restoring state from viewmodel
-        val formatter: DateTimeFormatter = DateTimeFormat.forPattern("MM/yyyy")
-        viewModel.getCurrentRequest()?.brewedBefore?.let {
-            mBinding.brewedBeforeDate = formatter.parseDateTime(it)
-        }
-        viewModel.getCurrentRequest()?.brewedAfter?.let {
-            mBinding.brewedAfterDate = formatter.parseDateTime(it)
         }
     }
 
@@ -84,12 +74,12 @@ class BeerFiltersFragment : BottomSheetDialogFragment() {
     }
 
     private val brewedBeforeDateListener =
-        DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            mBinding.brewedBeforeDate = DateTime(year, month + 1, dayOfMonth, 0, 0)
+        DatePickerDialog.OnDateSetListener { _, year, month, _ ->
+            mViewModel.setBrewedBefore("${month + 1}/$year")
         }
     private val brewedAfterDateListener =
-        DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            mBinding.brewedAfterDate = DateTime(year, month + 1, dayOfMonth, 0, 0)
+        DatePickerDialog.OnDateSetListener { _, year, month, _ ->
+            mViewModel.setBrewedAfter("${month + 1}/$year")
         }
 
     private fun onClickDatePicker(brewedDate: BrewedDate) {

@@ -43,10 +43,6 @@
         android:name="it.danielmilano.beers.ui.filter.BeerFiltersFragment"
         android:label="Filters"
         tools:layout="@layout/fragment_beer_filters">
-
-        <argument
-            android:name="beerName"
-            app:argType="string" />
     </dialog>
 
 </navigation>

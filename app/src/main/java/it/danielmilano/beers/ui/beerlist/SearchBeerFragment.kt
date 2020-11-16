@@ -29,6 +29,7 @@ class SearchBeerFragment : Fragment(R.layout.fragment_search_beer),
         mBinding = FragmentSearchBeerBinding.bind(view)
         val adapter = BeerAdapter(this)
         mBinding.apply {
+            lifecycleOwner = viewLifecycleOwner
             recycler.setHasFixedSize(true)
             recycler.itemAnimator = null
             recycler.adapter = adapter.withLoadStateFooter(
@@ -77,31 +78,35 @@ class SearchBeerFragment : Fragment(R.layout.fragment_search_beer),
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
                     mBinding.recycler.scrollToPosition(0)
-                    viewModel.searchBeers(query)
+                    viewModel.searchBeers()
                     searchView.clearFocus()
                 }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.setBeerName(newText)
                 return true
             }
         })
 
         val filterItem = menu.findItem(R.id.action_filter)
         filterItem.setOnMenuItemClickListener {
-            val action =
-                SearchBeerFragmentDirections.actionBeerListFragmentToBeerFiltersFragment(searchView.query.toString())
-            findNavController().navigate(action)
+            findNavController().navigate(R.id.beer_filters_fragment)
             true
         }
 
         //Restoring state from viewmodel
-        viewModel.getCurrentRequest()?.beerName?.let {
+        viewModel.beerName.value?.let {
             searchItem.expandActionView()
             searchView.setQuery(it, false)
             searchView.clearFocus()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mBinding.recycler.adapter = null //avoids memory leaks
     }
 
     override fun onItemClick(beer: Beer) {

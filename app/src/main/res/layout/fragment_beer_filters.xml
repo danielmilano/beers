@@ -6,12 +6,8 @@
     <data>
 
         <variable
-            name="brewedBeforeDate"
-            type="org.joda.time.DateTime" />
-
-        <variable
-            name="brewedAfterDate"
-            type="org.joda.time.DateTime" />
+            name="viewModel"
+            type="it.danielmilano.beers.ui.beerlist.SearchBeerViewModel" />
     </data>
 
     <LinearLayout
@@ -85,8 +81,8 @@
                 android:focusable="false"
                 android:hint="@string/beer_filters_brewed_before_hint"
                 android:padding="16dp"
-                android:text='@{brewedBeforeDate != null ? brewedBeforeDate.toString("MM/yyyy") : @string/beer_filters_brewed_before_hint}'
-                android:textColor="@{brewedBeforeDate != null ? @color/md_white_1000 : @color/md_grey_500}"
+                android:text='@{viewModel.brewedBeforeDate ?? @string/beer_filters_brewed_before_hint}'
+                android:textColor="@{viewModel.brewedBeforeDate != null ? @color/md_white_1000 : @color/md_grey_500}"
                 android:textColorHint="@color/md_grey_500"
                 app:drawableStartCompat="@drawable/ic_calendar_white"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -107,8 +103,8 @@
                 android:focusable="false"
                 android:hint="@string/beer_filters_brewed_after_hint"
                 android:padding="16dp"
-                android:text='@{brewedAfterDate != null ? brewedAfterDate.toString("MM/yyyy") : @string/beer_filters_brewed_after_hint}'
-                android:textColor="@{brewedAfterDate != null ? @color/md_white_1000 : @color/md_grey_500}"
+                android:text='@{viewModel.brewedAfterDate ??  @string/beer_filters_brewed_after_hint}'
+                android:textColor="@{viewModel.brewedAfterDate != null ? @color/md_white_1000 : @color/md_grey_500}"
                 android:textColorHint="@color/md_grey_500"
                 app:drawableStartCompat="@drawable/ic_calendar_white"
                 app:layout_constraintLeft_toLeftOf="parent"
