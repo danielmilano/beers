@@ -32,15 +32,10 @@ class BeerFiltersFragment : BottomSheetDialogFragment() {
     private lateinit var mBinding: FragmentBeerFiltersBinding
     private val mViewModel by activityViewModels<SearchBeerViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_Demo_BottomSheetDialog)
-    }
-
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_beer_filters, container, false)
     }
@@ -74,22 +69,22 @@ class BeerFiltersFragment : BottomSheetDialogFragment() {
     }
 
     private val brewedBeforeDateListener =
-        DatePickerDialog.OnDateSetListener { _, year, month, _ ->
-            mViewModel.setBrewedBefore("${month + 1}/$year")
-        }
+            DatePickerDialog.OnDateSetListener { _, year, month, _ ->
+                mViewModel.setBrewedBefore("${month + 1}/$year")
+            }
     private val brewedAfterDateListener =
-        DatePickerDialog.OnDateSetListener { _, year, month, _ ->
-            mViewModel.setBrewedAfter("${month + 1}/$year")
-        }
+            DatePickerDialog.OnDateSetListener { _, year, month, _ ->
+                mViewModel.setBrewedAfter("${month + 1}/$year")
+            }
 
     private fun onClickDatePicker(brewedDate: BrewedDate) {
         val calendar = Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(
-            requireContext(), when (brewedDate) {
-                BrewedDate.BREWED_BEFORE -> brewedBeforeDateListener
-                BrewedDate.BREWED_AFTER -> brewedAfterDateListener
-            }, calendar[Calendar.YEAR], calendar[Calendar.MONTH], calendar[Calendar.DAY_OF_MONTH]
-        )
+                requireContext(), when (brewedDate) {
+            BrewedDate.BREWED_BEFORE -> brewedBeforeDateListener
+            BrewedDate.BREWED_AFTER -> brewedAfterDateListener
+        }, calendar[Calendar.YEAR], calendar[Calendar.MONTH], calendar[Calendar.DAY_OF_MONTH])
+        datePickerDialog.datePicker.maxDate = DateTime.now().millis
         datePickerDialog.show()
     }
 
