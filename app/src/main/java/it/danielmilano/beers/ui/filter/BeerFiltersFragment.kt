@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import it.danielmilano.beers.R
 import it.danielmilano.beers.databinding.FragmentBeerFiltersBinding
+import it.danielmilano.beers.databinding.FragmentSearchBeerBinding
 import it.danielmilano.beers.ui.beerlist.SearchBeerViewModel
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -22,7 +23,8 @@ import java.util.*
 @AndroidEntryPoint
 class BeerFiltersFragment : BottomSheetDialogFragment() {
 
-    private lateinit var mBinding: FragmentBeerFiltersBinding
+    private var _binding: FragmentBeerFiltersBinding? = null
+    private val mBinding get() = _binding!!
     private val mViewModel by activityViewModels<SearchBeerViewModel>()
 
     override fun onCreateView(
@@ -35,7 +37,7 @@ class BeerFiltersFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding = FragmentBeerFiltersBinding.bind(view)
+        _binding = FragmentBeerFiltersBinding.bind(view)
 
         mBinding.apply {
             lifecycleOwner = viewLifecycleOwner
@@ -53,6 +55,11 @@ class BeerFiltersFragment : BottomSheetDialogFragment() {
 
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onDismiss(dialog: DialogInterface) {

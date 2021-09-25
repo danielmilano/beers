@@ -1,6 +1,7 @@
 package it.danielmilano.beers.data
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import it.danielmilano.beers.api.PunkService
 
 private const val PUNK_SERVICE_STARTING_PAGE_INDEX = 1
@@ -30,5 +31,8 @@ class BeerPagingSource(
         }
     }
 
+    override fun getRefreshKey(state: PagingState<Int, Beer>): Int? {
+        return state.anchorPosition
+    }
 
 }

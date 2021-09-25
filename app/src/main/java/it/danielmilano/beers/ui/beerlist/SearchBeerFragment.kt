@@ -21,12 +21,13 @@ import it.danielmilano.beers.databinding.FragmentSearchBeerBinding
 class SearchBeerFragment : Fragment(R.layout.fragment_search_beer),
     BeerAdapter.OnItemClickListener {
 
-    private lateinit var mBinding: FragmentSearchBeerBinding
+    private var _binding: FragmentSearchBeerBinding? = null
+    private val mBinding get() = _binding!!
     private val viewModel by activityViewModels<SearchBeerViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding = FragmentSearchBeerBinding.bind(view)
+        _binding = FragmentSearchBeerBinding.bind(view)
         val adapter = BeerAdapter(this)
         mBinding.apply {
             lifecycleOwner = viewLifecycleOwner
@@ -108,7 +109,7 @@ class SearchBeerFragment : Fragment(R.layout.fragment_search_beer),
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mBinding.recycler.adapter = null //avoids memory leaks
+        _binding = null //avoids memory leaks
     }
 
     override fun onItemClick(beer: Beer) {
